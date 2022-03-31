@@ -1,0 +1,28 @@
+import { basename, resolve } from 'path'
+import { promises as fs } from 'fs'
+import fg from 'fast-glob'
+import debug from 'debug'
+
+const log = debug('gala-ui-resolver')
+
+async function run() {
+  // fix cjs exports
+  const files = await fg('*.js', {
+    ignore: ['index.js', 'chunk-*'],
+    absolute: true,
+    cwd: resolve(__dirname, '../dist'),
+  })
+  for (const file of files) {
+    // eslint-disable-next-line no-console
+    console.log('[postbuild]', basename(file))
+    const name = basename(file, '.js')
+    let code = await fs.readFile(file, 'utf8')
+    code = code.replace('exports.default =', 'module.exports =')
+    code += 'exports.default = module.exports;'
+    await fs.writeFile(file, code)
+  }
+}
+
+run().then(() => {
+  log('完成文件替换')
+})
