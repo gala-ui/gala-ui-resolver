@@ -9,6 +9,8 @@
     "strictNullChecks": true,
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
+    "sourceMap": true,
+    "isolatedModules": true,
     "types": ["node"]
   },
   "include": ["**/*"]

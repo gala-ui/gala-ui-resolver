@@ -1,7 +1,4 @@
-// import cv from 'compare-versions' getPkgVersion
-// @ts-ignore
 import { kebabCase } from 'unplugin-vue-components'
-// @ts-ignore
 import type { ComponentInfo, ComponentResolver, SideEffectsInfo } from 'unplugin-vue-components'
 
 export interface GalaUiResolverOptions {
@@ -46,18 +43,13 @@ function getSideEffects(
   dirName: string,
   options: GalaUiResolverOptionsResolved
 ): SideEffectsInfo | undefined {
-  const { importStyle, ssr } = options
+  const { importStyle } = options
   const themeFolder = 'gala-ui/theme-chalk'
-  const esComponentsFolder = 'gala-ui/es/components'
 
   if (importStyle === 'sass')
-    return ssr
-      ? `${themeFolder}/src/${dirName}.scss`
-      : `${esComponentsFolder}/${dirName}/style/index`
+    return `${themeFolder}/src/${dirName}.scss`
   else if (importStyle === true || importStyle === 'css')
-    return ssr
-      ? `${themeFolder}/gl-${dirName}.css`
-      : `${esComponentsFolder}/${dirName}/style/css`
+    return `${themeFolder}/el-${dirName}.css`
 }
 
 function resolveComponent(
@@ -70,7 +62,7 @@ function resolveComponent(
 
   const partialName = kebabCase(name.slice(2)) // ElTableColumn -> table-column
   const { ssr } = options
-  const esComponentsFolder = `gala-ui/${ssr ? 'lib' : 'es'}/components`
+  const esComponentsFolder = `gala-ui/${ssr ? 'lib' : 'es'}/`
 
   // return {
   //   importName: name,
@@ -79,7 +71,7 @@ function resolveComponent(
   // }
   return {
     importName: name,
-    path: `${esComponentsFolder}/${partialName}/index`,
+    path: `${esComponentsFolder}/index`,
     sideEffects: getSideEffects(partialName, options),
   }
 }
@@ -107,13 +99,13 @@ function resolveDirective(
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { version, ssr } = options
-  const esDirectiveFolder = `gala-ui/${ssr ? 'lib' : 'es'}/components`
+  const esDirectiveFolder = `gala-ui/${ssr ? 'lib' : 'es'}/`
 
   // >=1.1.0-beta.1
   // if (cv.compare(version, '1.1.0-beta.1', '>=')) {
   return {
     importName: directive.importName,
-    path: `${esDirectiveFolder}/${directiveName}/index`,
+    path: `${esDirectiveFolder}/index`,
     sideEffects: getSideEffects(directive.styleName, options),
   }
   // }
