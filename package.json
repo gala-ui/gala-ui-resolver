@@ -1,6 +1,6 @@
 {
   "name": "@gala-ui/gala-ui-resolver",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "gala ui unplugin-vue-components",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -50,7 +50,7 @@
   "dependencies": {
     "@rollup/pluginutils": "^4.2.1",
     "es-module-lexer": "^0.10.5",
-    "escape-string-regexp": "^5.0.0",
+    "escape-string-regexp": "4.0.0",
     "unplugin": "^0.6.3"
   }
 }

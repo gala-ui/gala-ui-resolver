@@ -71,7 +71,7 @@ function resolveComponent(
   const esComponentsFolder = `gala-ui/${ssr ? 'lib' : 'es'}/`
   return {
     name,
-    from: `${esComponentsFolder}components/${partialName}/index`,
+    from: `${esComponentsFolder}/index`,
     sideEffects: getSideEffects(partialName, esComponentsFolder, options),
   }
 }
