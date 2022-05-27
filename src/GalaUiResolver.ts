@@ -1,5 +1,9 @@
-import { kebabCase } from 'unplugin-vue-components'
-import type { ComponentInfo, ComponentResolver, SideEffectsInfo } from 'unplugin-vue-components'
+import type { ComponentInfo, ComponentResolver, SideEffectsInfo } from 'unplugin-vue-components/index'
+
+function kebabCase(key: string) {
+  const result = key.replace(/([A-Z])/g, " $1").trim();
+  return result.split(" ").join("-").toLowerCase();
+}
 
 export interface GalaUiResolverOptions {
   /**
@@ -41,42 +45,37 @@ type GalaUiResolverOptionsResolved = Required<
 
 function getSideEffects(
   dirName: string,
+  esComponentsFolder: string,
   options: GalaUiResolverOptionsResolved
 ): SideEffectsInfo | undefined {
   const { importStyle } = options
   const themeFolder = 'gala-ui/theme-chalk'
 
   if (importStyle === 'sass')
-    return `${themeFolder}/src/${dirName}.scss`
+    return `${esComponentsFolder}components/${dirName}/style/index`
   else if (importStyle === true || importStyle === 'css')
-    return `${themeFolder}/el-${dirName}.css`
+    return `${themeFolder}/gl-${dirName}.css`
 }
 
 function resolveComponent(
   name: string,
   options: GalaUiResolverOptionsResolved
 ): ComponentInfo | undefined {
+
   if (options.exclude && name.match(options.exclude)) return
 
   if (!name.match(/^Gl[A-Z]/)) return
 
-  const partialName = kebabCase(name.slice(2)) // ElTableColumn -> table-column
+  const partialName = kebabCase(name.slice(2))
   const { ssr } = options
   const esComponentsFolder = `gala-ui/${ssr ? 'lib' : 'es'}/`
-
-  // return {
-  //   importName: name,
-  //   path: `gala-ui/${ssr ? 'lib' : 'es'}`,
-  //   sideEffects: getSideEffects(partialName, options),
-  // }
   return {
-    importName: name,
-    path: `${esComponentsFolder}/index`,
-    sideEffects: getSideEffects(partialName, options),
+    name,
+    from: `${esComponentsFolder}components/${partialName}/index`,
+    sideEffects: getSideEffects(partialName, esComponentsFolder, options),
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function resolveDirective(
   name: string,
   options: GalaUiResolverOptionsResolved
@@ -97,18 +96,14 @@ function resolveDirective(
   const directiveName = kebabCase(name)
   if (!directive || !directiveName) return
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { version, ssr } = options
+  const { ssr } = options
   const esDirectiveFolder = `gala-ui/${ssr ? 'lib' : 'es'}/`
 
-  // >=1.1.0-beta.1
-  // if (cv.compare(version, '1.1.0-beta.1', '>=')) {
   return {
-    importName: directive.importName,
-    path: `${esDirectiveFolder}/index`,
-    sideEffects: getSideEffects(directive.styleName, options),
+    name: directive.importName,
+    from: `${esDirectiveFolder}index`,
+    sideEffects: getSideEffects(directive.styleName, esDirectiveFolder, options),
   }
-  // }
 }
 
 export function GalaUiResolver(

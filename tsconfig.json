@@ -5,13 +5,16 @@
     "lib": ["esnext"],
     "moduleResolution": "node",
     "esModuleInterop": true,
+    "declaration": true,
     "strict": true,
     "strictNullChecks": true,
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "isolatedModules": true,
-    "types": ["node"]
+    "types": ["node"],
+    "baseUrl": "./",
+    "outDir": "./dist"
   },
-  "include": ["**/*"]
+  "include": ["src/*"]
 }

@@ -1,7 +1,9 @@
-import { GalaUiResolver } from './GalaUiResolver'
+import { GalaUiResolver } from './galaUiResolver'
+import AutoImport from './autoimport/vite'
 
 export {
-  GalaUiResolver
+  GalaUiResolver,
+  AutoImport
 }
 
 export default GalaUiResolver

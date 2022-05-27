@@ -1,24 +1,24 @@
 {
   "name": "@gala-ui/gala-ui-resolver",
-  "version": "0.0.1",
+  "version": "0.0.5",
   "description": "gala ui unplugin-vue-components",
-  "main": "./dist/index.js",
+  "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs"
+    },
+    "./*": "./*"
+  },
   "files": [
     "dist",
     "*.d.ts"
   ],
-  "typesVersions": {
-    "*": {
-      "*": [
-        "./dist/*"
-      ]
-    }
-  },
   "scripts": {
     "build": "tsup && esno scripts/postbuild.ts",
-    "dev": "tsup --watch src",
+    "dev": "tsup --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -37,13 +37,20 @@
   "homepage": "https://github.com/gala-ui/gala-ui-resolver#readme",
   "devDependencies": {
     "@types/debug": "^4.1.7",
-    "@types/node": "^17.0.23",
+    "@types/node": "*",
     "debug": "^4.3.4",
+    "esbuild": "^0.14.39",
     "esno": "^0.14.1",
+    "rollup": "^2.74.1",
+    "rollup-plugin-esbuild": "^4.9.1",
     "tsup": "^5.12.1",
-    "typescript": "^4.6.3"
+    "typescript": "^4.6.3",
+    "unplugin-vue-components": "^0.19.3"
   },
   "dependencies": {
-    "unplugin-vue-components": "^0.18.5"
+    "@rollup/pluginutils": "^4.2.1",
+    "es-module-lexer": "^0.10.5",
+    "escape-string-regexp": "^5.0.0",
+    "unplugin": "^0.6.3"
   }
 }

@@ -2,16 +2,19 @@
   "name": "@gala-ui/resolver-example-vite-vue3",
   "private": true,
   "version": "0.0.0",
+  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
-    "gala-ui": "^0.0.4",
+    "@gala-ui/gala-ui-resolver": "workspace:*",
+    "gala-ui": "1.0.0",
     "sass": "^1.49.10",
-    "unplugin-vue-components": "^0.18.5",
-    "vue": "^3.2.25"
+    "unplugin-auto-import": "^0.6.8",
+    "unplugin-vue-components": "^0.19.6",
+    "vue": "^3.2.31"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.3.0",
